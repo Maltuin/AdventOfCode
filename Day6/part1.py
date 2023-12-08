@@ -1,16 +1,15 @@
 import re
 
-datas = []
 result = 1
 
-for line in open("data.txt", "r"):
-    datas.append(list(map(lambda x: int(x), re.findall("\d+", line))))
+lines = open("data.txt", "r").readlines()
 
+durations = list(map(lambda x: int(x), re.findall("\d+", lines[0])))
+distances = list(map(lambda x: int(x), re.findall("\d+", lines[1])))
 
-
-for x in range(0, len(datas[0])):
-    duration = datas[0][x]
-    distance = datas[1][x]
+for x in range(0, len(durations)):
+    duration = durations[x]
+    distance = distances[x]
     start_winning = 0
     end_winning = 0
 

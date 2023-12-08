@@ -1,15 +1,9 @@
 import re
 
-datas = []
+lines = open("data.txt", "r").readlines()
 
-
-for line in open("data.txt", "r"):
-    datas.append(int(''.join(re.findall("\d+", line))))
-
-start_winning = 0
-end_winning = 0
-duration = datas[0]
-distance = datas[1]
+duration = int(''.join(re.findall("\d+", lines[0])))
+distance = int(''.join(re.findall("\d+", lines[1])))
 
 for x in range(1, duration):
     if x * (duration - x) > distance:
