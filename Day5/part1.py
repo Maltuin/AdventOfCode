@@ -6,20 +6,16 @@ new_mapping = {}
 
 for line in open("data.txt", "r"):
     if is_seed is True:
-        seeds = re.findall("\d+", line)
-        for seed in seeds:
-            mappings[seed] = int(seed)
+        for seed in map(lambda x: int(x), re.findall("\d+", line)):
+            mappings[seed] = seed
         is_seed = False
 
     if is_seed is False:
-        number = re.findall("\d+", line)
+        number = list(map(lambda x: int(x), re.findall("\d+", line)))
         if len(number) == 3:
-            start = int(number[1])
-            end = int(number[1]) + int(number[2])
-            diff = int(number[1]) - int(number[0])
             for key, value in mappings.items():
-                if value >= start and value < end:
-                    new_mapping[key] = value - diff
+                if value >= number[1] and value < number[1] + number[2]:
+                    new_mapping[key] = value - (number[1] - number[0])
         else:
             for key, value in new_mapping.items():
                 mappings[key] = value
@@ -28,5 +24,4 @@ for line in open("data.txt", "r"):
 for key, value in new_mapping.items():
     mappings[key] = value
 
-                
 print(min(mappings.values()))
