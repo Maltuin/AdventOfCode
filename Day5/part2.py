@@ -1,38 +1,58 @@
 import datetime
 import re
 
-is_seed = True
-mappings = {}
-new_mapping = {}
+print(datetime.datetime.now())
 
-print(datetime.datetime.utcnow())
+is_seed = True
+actions_list= [
+    "humidity-to-location map:\n",
+    "temperature-to-humidity map:\n",
+    "light-to-temperature map:\n",
+    "water-to-light map:\n",
+    "fertilizer-to-water map:\n",
+    "soil-to-fertilizer map:\n",
+    "seed-to-soil map:\n"
+]
+seeds = []
+actions = []
+actionstring = "seed"
+
 for line in open("data.txt", "r"):
     if is_seed is True:
-        seeds = re.findall("\d+", line)
-        seeds = list(map(lambda x: int(x), seeds))
-        for x in (0, len(seeds) - 2):
-            for y in range(seeds[x], seeds[x] + seeds[x+1]):
-                mappings[y] = y
-            x += 1
+        seeds_regex = list(map(lambda x: int(x), re.findall("\d+", line)))
+        for x in range(0, len(seeds_regex) - 1, 2):
+            seeds.append((seeds_regex[x], seeds_regex[x] + seeds_regex[x + 1]))
         is_seed = False
-
-    if is_seed is False:
+    else:
         number = re.findall("\d+", line)
         if len(number) == 3:
             number = list(map(lambda x: int(x), number))
-            start = number[1]
-            end = number[1] + number[2]
-            diff = number[1] - number[0]
-            for key, value in mappings.items():
-                if value >= start and value < end:
-                    new_mapping[key] = value - diff
+            actions.append(
+                { 
+                    "action": actionstring,
+                    "diff": number[1] - number[0],
+                    "start": number[0],
+                    "end": number[0] + number[2]
+                }
+            )
         else:
-            for key, value in new_mapping.items():
-                mappings[key] = value
-            new_mapping = {}
-            
-for key, value in new_mapping.items():
-    mappings[key] = value
+            actionstring = line
 
-print(datetime.datetime.utcnow())
-print(min(mappings.values()))
+cont = True
+current = 60556152
+
+while cont == True:
+    calcul = current
+    for action in actions_list:
+        for todo in filter(lambda x: x["action"] == action, actions):
+            if(calcul >= todo["start"] and calcul < todo["end"]):
+                calcul += todo["diff"]
+                break
+    for seed in seeds:
+        if calcul >= seed[0] and calcul < seed[1]:
+            print(current)
+            cont = False
+            break
+    current += 1
+
+print(datetime.datetime.now())
