@@ -1,4 +1,6 @@
 import re
+from math import lcm
+
 file = open("data.txt", "r")
 
 points = {}
@@ -13,11 +15,16 @@ for line in file:
     points[datas[0]] = {"L" : datas[1], "R": datas[2]}
 
 mod = len(road) - 1
-count = 0
+ends = []
 
-while not all(list(map(lambda x: x.endswith("Z"), currentpoints))):
-    for i, cur in enumerate(currentpoints):
-        currentpoints[i] = points[cur][road[count%mod]]
-    count += 1
-        
-print(count)
+for point in currentpoints:
+    count = 0
+    
+    while True:
+        point = points[point][road[count%mod]]
+        count += 1
+        if point.endswith("Z"):
+            ends.append(count)
+            break
+
+print(lcm(*ends))
