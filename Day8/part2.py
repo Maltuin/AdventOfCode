@@ -19,7 +19,6 @@ ends = []
 
 for point in currentpoints:
     count = 0
-    
     while True:
         point = points[point][road[count%mod]]
         count += 1

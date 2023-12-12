@@ -1,0 +1,28 @@
+Day 11 :
+
+calcul des lignes sans galaxies
+
+calcul du nombre de ligne plus colonne entre deux galaxies
+ajouter les lignes calculer juste avant
+
+exemple 
+ligne vide : 2
+Gal 1 : 0:1
+Gal 2 : 2:3
+gal 3 : 0:0
+
+2-0-1 = 1
+3-1-1 = 1
++1
++1 pour l'expension
+= 4
+
+2-0-1 = 1
+3-0-1 = 2
++1
++1 pour l'expension
+= 5
+
+gg.
+...
+..g
