@@ -1,5 +1,11 @@
 import re
 
+def count_block(blocks, rolling_rock, index):
+    return [item[0] for item in blocks if filt_check(item, rolling_rock, index)]
+
+def filt_check(x, rolling_rock, first_blocking_rock):
+    return x[0] < rolling_rock[0] and x[0] >= first_blocking_rock and x[1] == rolling_rock[1]
+
 file = open("data.txt", "r").read()
 col = 101
 ligne = 100
@@ -15,10 +21,10 @@ for rock in re.finditer("#", file):
 
 result = 0
 for rolling_rock in rolling_rocks:
-    blocks = list(map(lambda x: x[0], filter(lambda x: x[0] < rolling_rock[0] and x[1] == rolling_rock[1], blocking_rocks)))
+    blocks = count_block(blocking_rocks, rolling_rock, 0)
     first_blocking_rock = max(blocks) + 1 if len(blocks) > 0 else 0
 
-    nb_rock_beetwen = len(list(filter(lambda x: x[0] < rolling_rock[0] and x[0] >= first_blocking_rock and x[1] == rolling_rock[1], rolling_rocks)))
-    result += ligne  - nb_rock_beetwen - first_blocking_rock
+    nb_rock_beetwen = len(count_block(rolling_rocks, rolling_rock, first_blocking_rock))
+    result += ligne - (first_blocking_rock + nb_rock_beetwen)
 
 print(result)

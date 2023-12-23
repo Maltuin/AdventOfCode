@@ -8,8 +8,6 @@ file.readline()
 
 for line in file:
     datas = re.findall("\w+", line)
-    if datas[0].endswith("A"):
-        starts.append(datas[0])
     points[datas[0]] = {"L" : datas[1], "R": datas[2]}
 
 mod = len(road) - 1
